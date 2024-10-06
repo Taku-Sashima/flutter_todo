@@ -40,18 +40,39 @@ class _TodoListPageState extends State<TodoListPage> {
       body: ListView.builder(
         padding: const EdgeInsets.only(top: 40),
         itemCount: todoList.length,
-        itemBuilder: (context, index) {
-          return Card(
+        itemBuilder: (context, index){
+          return 
+          Card(
             margin: const EdgeInsets.only(left: 20, right: 20,top: 6, bottom: 6),
             child: Container(
               margin: const EdgeInsets.all(8),
               // height: 30,
               width: double.infinity,
-              child: Text(
-                todoList[index],
-                style: const TextStyle(
-                  fontSize: 26
-                )
+              child: TextButton(
+                onPressed: () {
+                  // ダイアログを表示
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('タスク'),
+                        content: Text(todoList[index]),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop(); // ダイアログを閉じる
+                            },
+                            child: const Text('閉じる'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                child: Text(
+                  todoList[index],
+                  style: const TextStyle(fontSize: 26),
+                ),
               ),
             ),
           );
