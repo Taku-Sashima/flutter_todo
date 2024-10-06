@@ -70,6 +70,8 @@ class TodoListPage extends StatelessWidget {
 }
 
 
+
+// ToDo追加画面
 class TodoAddPage extends StatelessWidget {
   const TodoAddPage({super.key});
 
@@ -79,16 +81,60 @@ class TodoAddPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('リスト追加'),
       ),
-      body: Center(
-        child: TextButton(
-          // ボタンをクリックした時の処理
-          onPressed: () {
-            // "pop"で前の画面に戻る
-            Navigator.of(context).pop();
-          },
-          child: const Text('リスト追加画面（クリックで戻る）'),
+
+      body: Container(
+        padding: const EdgeInsets.all(64),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.blue, width: 2),
+              ),
+              margin: const EdgeInsets.all(8),
+              width: double.infinity,
+              child: const TextField(),
+            ),
+
+            Container(
+              margin: const EdgeInsets.all(8),
+              width: double.infinity,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.blue,
+                ),
+                // 追加する処理
+                onPressed: () {
+                  
+                },
+                child: const Text(
+                  'ToDo追加',
+                ),
+              ),
+            ),
+
+            Container(
+              margin: const EdgeInsets.all(8),
+              width: double.infinity,
+              child: TextButton(
+                // 追加する処理
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text(
+                  'キャンセル',
+                  style: TextStyle(
+                    // height: 10,
+                    fontSize: 30
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
+
     );
   }
 }
