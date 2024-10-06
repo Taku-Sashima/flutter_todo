@@ -71,14 +71,22 @@ class TodoListPage extends StatelessWidget {
 
 
 
-// ToDo追加画面
-class TodoAddPage extends StatelessWidget {
+class TodoAddPage extends StatefulWidget {
   const TodoAddPage({super.key});
+  
+  @override
+  _TodoAddPageState createState() => _TodoAddPageState();
+}
+
+// ToDo追加画面
+class _TodoAddPageState extends State<TodoAddPage> {
+  String _text = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xffa0ffa0),
         title: const Text('リスト追加'),
       ),
 
@@ -87,13 +95,23 @@ class TodoAddPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            // Text(_text, style: TextStyle(color: Colors.blue)),
+
             Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.blue, width: 2),
-              ),
               margin: const EdgeInsets.all(8),
               width: double.infinity,
-              child: const TextField(),
+              child: TextField(
+                onChanged: (String value) {
+                  // データが変更したことを知らせる（画面を更新する）
+                  setState(() {
+                    // データを変更
+                    _text = value;
+                  });
+                },
+                style: const TextStyle(
+                  fontSize: 26
+                ),
+              ),
             ),
 
             Container(
@@ -101,15 +119,18 @@ class TodoAddPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  foregroundColor: Colors.blue,
+                  backgroundColor: const Color(0xffa0ffa0),
+                  foregroundColor: const Color(0xffffffff),
                 ),
                 // 追加する処理
                 onPressed: () {
-                  
+                  Navigator.of(context).pop(_text);
                 },
                 child: const Text(
                   'ToDo追加',
+                  style: TextStyle(
+                    fontSize: 26
+                  ),
                 ),
               ),
             ),
@@ -125,12 +146,12 @@ class TodoAddPage extends StatelessWidget {
                 child: const Text(
                   'キャンセル',
                   style: TextStyle(
-                    // height: 10,
-                    fontSize: 30
+                    fontSize: 26
                   ),
                 ),
               ),
             ),
+
           ],
         ),
       ),
