@@ -11,64 +11,78 @@ class MyTodoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Todo App',
+      title: 'Todo App',
       theme: ThemeData(primarySwatch: Colors.blue,),
       home: const TodoListPage(),
     );
   }
 }
 
-// リスト一覧画面用Widget
-class TodoListPage extends StatelessWidget {
+class TodoListPage extends StatefulWidget {
   const TodoListPage({super.key});
+
+  @override
+  _TodoListPageState createState() => _TodoListPageState();
+}
+
+// リスト一覧画面用Widget
+class _TodoListPageState extends State<TodoListPage> {
+  List<String> todoList = [];
 
   @override
   Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xffa0ffa0),
         title: const Text('リスト一覧'),
       ),
-      body:  ListView(
-        children: <Widget>[
-          Card(
+
+      body: ListView.builder(
+        padding: const EdgeInsets.only(top: 40),
+        itemCount: todoList.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.only(left: 20, right: 20,top: 6, bottom: 6),
             child: Container(
-              height: 60,
+              margin: const EdgeInsets.all(8),
+              // height: 30,
               width: double.infinity,
-              child: const Text('あああああ'),
+              child: Text(
+                todoList[index],
+                style: const TextStyle(
+                  fontSize: 26
+                )
+              ),
             ),
-          ),
-          Card(
-            child: Container(
-              height: 60,
-              width: double.infinity,
-              child: const Text('あああああ'),
-            ),
-          ),
-          Card(
-            child: Container(
-              height: 60,
-              width: double.infinity,
-              child: const Text('あああああ', style: TextStyle(fontSize: 30)),
-            ),
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // "push"で新規画面に遷移
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) {
-              // 遷移先の画面としてリスト追加画面を指定
-              return const TodoAddPage();
-            }),
           );
+        },
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xffa0ffa0),
+        onPressed: () async {
+          // "push"で新規画面に遷移
+          final newListText = await Navigator.of(context).push(
+            // 遷移先の画面としてリスト追加画面を指定
+            MaterialPageRoute(builder: (context) => const TodoAddPage()),
+          );
+          if (newListText == null) {
+            // キャンセルした場合は newListText が null となるので注意
+            print("null");
+          }else{
+            setState((){
+              todoList.add(newListText);
+            });
+            print("not null");
+          }
         },
         child: const Icon(Icons.add),
       ),
+      
+
     );
   }
 }
-
 
 
 class TodoAddPage extends StatefulWidget {
