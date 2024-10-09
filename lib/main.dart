@@ -40,41 +40,62 @@ class _TodoListPageState extends State<TodoListPage> {
       body: ListView.builder(
         padding: const EdgeInsets.only(top: 40),
         itemCount: todoList.length,
-        itemBuilder: (context, index){
+        itemBuilder: (context, index) {
           return 
-          Card(
+          Container(
             margin: const EdgeInsets.only(left: 20, right: 20,top: 6, bottom: 6),
-            child: Container(
-              margin: const EdgeInsets.all(8),
-              // height: 30,
-              width: double.infinity,
-              child: TextButton(
-                onPressed: () {
-                  // ダイアログを表示
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('タスク'),
-                        content: Text(todoList[index]),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop(); // ダイアログを閉じる
-                            },
-                            child: const Text('閉じる'),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-                child: Text(
-                  todoList[index],
-                  style: const TextStyle(fontSize: 26),
-                ),
-              ),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: const Color(0x0fa0ffa0),
+              border: Border.all(color: const Color(0xffa0ffa0)),
+              borderRadius: BorderRadius.circular(10),
             ),
+
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Expanded(
+                  child: TextButton(
+                    // モーダルウィンドウを表示
+                    onPressed: () => showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: const Text('タスク'),
+                          content: Text(todoList[index]),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(); // ダイアログを閉じる
+                              },
+                              child: const Text('閉じる'),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        todoList[index],
+                        style: const TextStyle(fontSize: 26),
+                      ),
+                    ),
+                  ),
+                ),
+
+                OutlinedButton(
+                  onPressed:() =>{
+                    setState((){
+                      todoList.removeAt(index);
+                      print("delete todo");
+                    },)
+                  },
+                  child: const Icon(Icons.delete_forever),
+                ),
+
+              ],
+            )
           );
         },
       ),
@@ -87,7 +108,7 @@ class _TodoListPageState extends State<TodoListPage> {
             // 遷移先の画面としてリスト追加画面を指定
             MaterialPageRoute(builder: (context) => const TodoAddPage()),
           );
-          if (newListText == null) {
+          if (newListText == null || newListText == "") {
             // キャンセルした場合は newListText が null となるので注意
             print("null");
           }else{
@@ -99,8 +120,6 @@ class _TodoListPageState extends State<TodoListPage> {
         },
         child: const Icon(Icons.add),
       ),
-      
-
     );
   }
 }
@@ -130,8 +149,6 @@ class _TodoAddPageState extends State<TodoAddPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Text(_text, style: TextStyle(color: Colors.blue)),
-
             Container(
               margin: const EdgeInsets.all(8),
               width: double.infinity,
